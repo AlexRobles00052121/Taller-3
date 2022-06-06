@@ -682,31 +682,18 @@ SET tipo = 'Premium'
 SELECT *
 FROM CLIENTES_PREMIUM
 
-
-
 /* 2. Mostrar las 2 clínicas más populares. El parámetro de popularidad se define en base al número de
 citas registradas por cada clínica. Mostrar el id de la clínica, el nombre, su dirección y email, además
 mostrar la cantidad de citas registradas. Ordenar el resultado en base a la cantidad de citas
 registradas. */ --todavia no
 
-
-SELECT cl.id AS 'ID Clinica', cl.nombre AS 'Nombre de la Clinica', cl.direccion, cl.email, SUM (cta.id) AS 'Numero de Citas'
-FROM CLINICA cl
-INNER JOIN CITA cta  
-ON cta.id_clinica = cl.id
-GROUP BY cl.id, cl.nombre, cl.direccion, cl.email
-HAVING SUM (cta.id) >= 200
-ORDER BY SUM (cta.id) DESC
-;
-
-SELECT CLINICA.id, nombre, direccion, email
-FROM CLINICA, CONSULTA, CONSULTORIO
-WHERE CLINICA.id = CONSULTA.id_consultorio
-
-
-SELECT *
-FROM CONSULTA
-WHERE CLINICA.id = 1
+SELECT  CL.id, CL.nombre, CL.direccion ,CL.email, COUNT (CT.id_clinica) AS 'CITAS ' 
+FROM CLINICA CL
+INNER JOIN  CITA CT
+ON CT.id_clinica = CL.id
+GROUP BY CL.id , CL.nombre , CL.direccion ,CL.email
+HAVING COUNT (CT.id) >= 7
+ORDER BY CL.id ASC ;
 
 /* 3. Mostrar la información completa de cada cliente, incluir el nombre, dirección, el tipo de plan, los
 correos (si es que ha brindado alguno) y los teléfonos (si es que ha brindado alguno). Ordenar el
